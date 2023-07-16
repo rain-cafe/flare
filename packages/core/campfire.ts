@@ -3,50 +3,73 @@ import chalk from 'chalk';
 import * as readline from 'readline/promises';
 import {userInfo} from 'os';
 import EventEmitter from 'events';
+import { FlareCommand } from './command';
 
 export class CampfirePlatform extends EventEmitter implements Platform {
     public static readonly NAME = 'campfire';
-    private rl: readline.Interface;
-    private username: string;
+    static readonly #BOT_USERNAME = 'flare';
+    #rl: readline.Interface;
+    #username: string;
+    #commands: Map<string, FlareCommand>;
 
     constructor() {
         super();
 
-        this.rl = readline.createInterface({
+        this.#commands = new Map();
+
+        this.#rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
         });
 
-        this.username = userInfo().username;
+        this.#username = userInfo().username;
     }
 
-    private log(name: string, message: string) {
+    #log(name: string, message: string) {
         console.log(chalk.cyan(`${chalk.bold(`[${name}]:`)} ${message}`));
     }
 
-    private async requestInput() {
+    async #requestInput() {
         while (true) {
-            const message = await this.rl.question('> ');
+            const message = await this.#rl.question('> ');
 
             process.stdout.clearLine(0);
             process.stdout.moveCursor(0, -1);
             process.stdout.clearLine(0);
             process.stdout.cursorTo(0);
 
-            this.log(this.username, message);
-            this.emit('message', {
-                id: this.username,
-                username: this.username,
-                message: message
-            });
+            if (message.startsWith('/')) {
+              const [name] = message.replace('/', '').split(' ');
+
+              const command = this.#commands.get(name);
+
+              if (!command) return;
+
+              await command.invoke({
+                reply: async (message) => this.#log(CampfirePlatform.#BOT_USERNAME, message)
+              })
+            } else {
+              this.#log(this.#username, message);
+              this.emit('message', {
+                  id: this.#username,
+                  username: this.#username,
+                  message: message
+              });
+            }
         }
     }
-    
+
     async authenticate(): Promise<void> {
         await new Promise((resolve) => setTimeout(resolve));
 
-        this.log('flare', `Welcome ${this.username}!`);
+        this.#log(CampfirePlatform.#BOT_USERNAME, `Welcome ${this.#username}!`);
 
-        this.requestInput();
+        this.#requestInput();
+    }
+
+    async register(commands: FlareCommand[]): Promise<void> {
+      for (const command of commands) {
+        this.#commands.set(command.name, command);
+      }
     }
 }

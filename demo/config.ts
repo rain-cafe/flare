@@ -1,3 +1,4 @@
+import { LogLevel } from '@flare/core/logger';
 import chalk from 'chalk';
 import { config } from 'dotenv';
 
@@ -34,6 +35,7 @@ type Config = {
     DISCORD_TOKEN: string;
     ENVIRONMENT: Environment;
     PLATFORM: string;
+    LOG_LEVEL?: LogLevel;
 }
 
 export const CONFIG: Config = {
@@ -41,4 +43,5 @@ export const CONFIG: Config = {
     DISCORD_CLIENT_ID: get<string>(null, 'DISCORD_CLIENT_ID'),
     DISCORD_TOKEN: get<string>(null, 'DISCORD_TOKEN'),
     PLATFORM: get<string>(null, 'PLATFORM'),
+    LOG_LEVEL: get<LogLevel | undefined>(undefined, 'LOG_LEVEL')
 }

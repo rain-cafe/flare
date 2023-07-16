@@ -1,29 +1,93 @@
-import type {Platform} from '@flare/core';
+import type { Platform } from '@flare/core';
 import EventEmitter from 'events';
-import {Client} from 'discord.js';
+import { Client, REST, Routes, SlashCommandBuilder } from 'discord.js';
+import { FlareCommand } from '@flare/core/command';
+import { Logger } from '@flare/core/logger';
+import { toFlareInteraction } from './utils/interaction';
 
 export class DiscordPlatform extends EventEmitter implements Platform {
-    public static readonly NAME = 'discord';
-    private client: Client;
-    private options: DiscordPlatform.Options;
+  public static readonly NAME = 'discord';
+  #client: Client;
+  #options: DiscordPlatform.Options;
+  #commands: Map<string, FlareCommand>;
 
-    constructor(options: DiscordPlatform.Options) {
-        super();
-        this.options = options;
+  constructor(options: DiscordPlatform.Options) {
+    super();
+    this.#options = options;
+    this.#commands = new Map();
 
-        this.client = new Client({
-            partials: [],
-            intents: []
-        });
+    this.#client = new Client({
+      partials: [],
+      intents: []
+    });
+  }
+
+  async authenticate(): Promise<void> {
+    await this.#client.login(this.#options.token);
+  }
+
+  async #unpublish() {
+    this.#commands.clear();
+
+    const rest = new REST({ version: '10' }).setToken(this.#options.token);
+
+    Logger.silly('Deleting application commands...');
+
+    await rest.put(Routes.applicationCommands(this.#options.clientId), { body: [] })
+
+    Logger.info('Successfully deleted all application commands.');
+  }
+
+  async register(commands: FlareCommand[]): Promise<void> {
+    const rest = new REST({ version: '10' }).setToken(this.#options.token);
+
+    try {
+      await this.#unpublish();
+
+      for (const command of commands) {
+        this.#commands.set(command.name, command);
+      }
+
+      await rest.put(Routes.applicationCommands(this.#options.clientId), {
+        body: commands.map((command) => {
+          return new SlashCommandBuilder()
+            .setName(command.name)
+            .setDescription('rawr')
+            .setDefaultMemberPermissions('0')
+            .setDMPermission(false)
+            .toJSON();
+        })
+      });
+
+      this.#client.on('interactionCreate', async (interaction) => {
+        if (!interaction.isCommand()) return;
+
+        const command = this.#commands.get(interaction.commandName);
+
+        if (!command) return;
+
+        try {
+          await command.invoke(toFlareInteraction(interaction));
+        } catch (error) {
+          await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        }
+
+        if (!interaction.replied) {
+          await interaction.reply({
+            content: 'Your command completed, but you never told anyone about it! :<',
+            ephemeral: true
+          });
+        }
+      });
+    } catch (error) {
+      console.error(error);
     }
-    
-    async authenticate(): Promise<void> {
-        await this.client.login(this.options.token);
-    }
+  }
 }
 
 export namespace DiscordPlatform {
-    export type Options = {
-        token: string;
-    }
+  export type Options = {
+    clientId: string;
+    token: string;
+  }
 }

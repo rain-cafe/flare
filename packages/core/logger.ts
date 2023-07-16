@@ -1,14 +1,14 @@
 // import {Chalk, red, yellow, cyan, magenta} from 'chalk';
 
 export enum LogLevel {
-    ERROR,
-    WARN,
-    INFO,
-    SILLY,
+  ERROR,
+  WARN,
+  INFO,
+  SILLY,
 }
 
 export const MAX_LENGTH = Object.keys(LogLevel).reduce((output, value) => {
-    return Math.max(output, value.length);
+  return Math.max(output, value.length);
 }, 0) + 3;
 
 // export const LEVEL_CHALK: {
@@ -21,34 +21,36 @@ export const MAX_LENGTH = Object.keys(LogLevel).reduce((output, value) => {
 // };
 
 export class Logger {
-    private static level: LogLevel = LogLevel.INFO;
+  static #level: LogLevel = LogLevel.INFO;
 
-    public static setLevel(level: LogLevel): void {
-        Logger.level = level;
-    }
+  public static setLevel(level?: LogLevel): void {
+    if (!level) return;
 
-    public static log(level: LogLevel, ...message: string[]) {
-        if (Logger.level < level) return;
+    Logger.#level = level;
+  }
 
-        // const chalk = LEVEL_CHALK[level];
+  public static log(level: LogLevel, ...message: string[]) {
+    if (Logger.#level < level) return;
 
-        // console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`));
-        console.log(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`);
-    }
+    // const chalk = LEVEL_CHALK[level];
 
-    public static error(...message: string[]) {
-        Logger.log(LogLevel.ERROR, ...message);
-    }
+    // console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`));
+    console.log(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`);
+  }
 
-    public static warn(...message: string[]) {
-        Logger.log(LogLevel.WARN, ...message);
-    }
+  public static error(...message: string[]) {
+    Logger.log(LogLevel.ERROR, ...message);
+  }
 
-    public static info(...message: string[]) {
-        Logger.log(LogLevel.INFO, ...message);
-    }
+  public static warn(...message: string[]) {
+    Logger.log(LogLevel.WARN, ...message);
+  }
 
-    public static silly(...message: string[]) {
-        Logger.log(LogLevel.SILLY, ...message);
-    }
+  public static info(...message: string[]) {
+    Logger.log(LogLevel.INFO, ...message);
+  }
+
+  public static silly(...message: string[]) {
+    Logger.log(LogLevel.SILLY, ...message);
+  }
 }
