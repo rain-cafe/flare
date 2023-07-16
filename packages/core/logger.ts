@@ -1,4 +1,4 @@
-import {Chalk, red, yellow, cyan, magenta} from 'chalk';
+// import {Chalk, red, yellow, cyan, magenta} from 'chalk';
 
 export enum LogLevel {
     ERROR,
@@ -7,24 +7,33 @@ export enum LogLevel {
     SILLY,
 }
 
-const MAX_LENGTH = Object.keys(LogLevel).reduce((output, value) => {
+export const MAX_LENGTH = Object.keys(LogLevel).reduce((output, value) => {
     return Math.max(output, value.length);
 }, 0) + 3;
 
-const LEVEL_CHALK: {
-    [key in LogLevel]: Chalk;
-} = {
-    [LogLevel.ERROR]: red,
-    [LogLevel.WARN]: yellow,
-    [LogLevel.INFO]: cyan,
-    [LogLevel.SILLY]: magenta,
-};
+// export const LEVEL_CHALK: {
+//     [key in LogLevel]: Chalk;
+// } = {
+//     [LogLevel.ERROR]: red,
+//     [LogLevel.WARN]: yellow,
+//     [LogLevel.INFO]: cyan,
+//     [LogLevel.SILLY]: magenta,
+// };
 
 export class Logger {
-    public static log(level: LogLevel, ...message: string[]) {
-        const chalk = LEVEL_CHALK[level];
+    private static level: LogLevel = LogLevel.INFO;
 
-        console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`));
+    public static setLevel(level: LogLevel): void {
+        Logger.level = level;
+    }
+
+    public static log(level: LogLevel, ...message: string[]) {
+        if (Logger.level < level) return;
+
+        // const chalk = LEVEL_CHALK[level];
+
+        // console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`));
+        console.log(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`);
     }
 
     public static error(...message: string[]) {
