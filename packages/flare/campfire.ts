@@ -5,6 +5,7 @@ import {userInfo} from 'os';
 import EventEmitter from 'events';
 
 export class CampfirePlatform extends EventEmitter implements Platform {
+    public static readonly NAME = 'campfire';
     private rl: readline.Interface;
     private username: string;
 
@@ -42,8 +43,6 @@ export class CampfirePlatform extends EventEmitter implements Platform {
     }
     
     async authenticate(): Promise<void> {
-        console.clear();
-
         await new Promise((resolve) => setTimeout(resolve));
 
         this.log('flare', `Welcome ${this.username}!`);
