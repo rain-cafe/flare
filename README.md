@@ -54,9 +54,12 @@ $ npm install @flare/discord
 
 ```ts
 import { Flare, CampfirePlatform } from '@flare/core';
+import { DiscordPlatform } from '@flare/discord';
 
 const flare = new Flare({
-    platform: new CampfirePlatform();,
+    platform: new DiscordPlatform({
+      token: '<your-discord-bot-token-here>'
+    });,
 });
 ```
 
