@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+      - name: Install Packages
+        run: npm ci
+      - name: Linting
+        run: npm run lint
+      # - name: Coverage
+      #   run: npm run test:coverage
+      # - name: Coveralls
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
