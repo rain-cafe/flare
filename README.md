@@ -46,7 +46,9 @@
 ## Install
 
 ```sh
+# Install the Flare Core
 $ npm install @flare/core
+# Install any Platforms you need
 $ npm install @flare/discord
 ```
 
