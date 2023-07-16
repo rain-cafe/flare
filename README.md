@@ -30,9 +30,9 @@
 
   [![NPM Version][npm-version-image]][npm-url]
   [![NPM Downloads][npm-downloads-image]][npm-url]
+  
   [![CI Build][github-actions-image]][github-actions-url]
   [![Coveralls][coveralls-image]][coveralls-url]
-
   [![semantic-release][semantic-release-image]][semantic-release-url]
   
 </div>
