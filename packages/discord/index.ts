@@ -1,4 +1,4 @@
-import type {Platform} from '@rain/flare';
+import type {Platform} from '@flare/core';
 import EventEmitter from 'events';
 import {Client} from 'discord.js';
 

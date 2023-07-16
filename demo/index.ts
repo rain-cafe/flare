@@ -1,5 +1,5 @@
-import { Flare, CampfirePlatform, Platform } from '@rain/flare';
-import { DiscordPlatform } from '@rain/discord';
+import { Flare, CampfirePlatform, Platform } from '@flare/core';
+import { DiscordPlatform } from '@flare/discord';
 import { CONFIG } from './config';
 
 function getPlatform(platform: string): Platform {
