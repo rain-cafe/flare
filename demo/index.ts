@@ -1,5 +1,5 @@
 import { Flare, CampfirePlatform, Platform, FlareInteraction } from '@flare/core';
-import { DiscordPlatform } from '@flare/discord';
+import { DiscordPlatform, Partials } from '@flare/discord';
 import { CONFIG } from './config';
 import { FlareCommand } from '@flare/core/command';
 
@@ -10,7 +10,14 @@ function getPlatform(platform: string): Platform {
     case DiscordPlatform.NAME:
       return new DiscordPlatform({
         clientId: CONFIG.DISCORD_CLIENT_ID,
-        token: CONFIG.DISCORD_TOKEN
+        token: CONFIG.DISCORD_TOKEN,
+        partials: [
+          Partials.GuildMember,
+        ],
+        intents: [
+          'Guilds',
+          'GuildMembers',
+        ]
       });
     default:
       throw new Error(`Unknown platform! (${platform})`);
@@ -25,4 +32,8 @@ const flare = new Flare({
     })
   ],
   level: CONFIG.LOG_LEVEL
+});
+
+flare.on('ready', () => {
+  flare.send('966502697341698108', '987612495625719829', 'Rawr!');
 });

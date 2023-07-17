@@ -2,9 +2,9 @@ import { EventEmitter } from 'events';
 import { FlareCommand } from './command';
 
 export type MessageEnvelope = {
-    id: string;
-    displayName: string;
-    message: string;
+  id: string;
+  displayName: string;
+  message: string;
 }
 
 export type FlareInteraction = {
@@ -12,9 +12,10 @@ export type FlareInteraction = {
 };
 
 export declare interface Platform extends EventEmitter {
-    authenticate(): Promise<void>;
-    register(commands: FlareCommand[]): Promise<void>;
+  send(serverId: string, channelId: string, message: string): Promise<void>;
+  authenticate(): Promise<void>;
+  register(commands: FlareCommand[]): Promise<void>;
 
-    on(event: 'message', callback: (envelope: MessageEnvelope) => void): this;
-    emit(event: 'message', envelope: MessageEnvelope): boolean;
+  on(event: 'message', callback: (envelope: MessageEnvelope) => void): this;
+  emit(event: 'message', envelope: MessageEnvelope): boolean;
 }

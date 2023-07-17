@@ -29,6 +29,10 @@ export class CampfirePlatform extends EventEmitter implements Platform {
         console.log(chalk.cyan(`${chalk.bold(`[${name}]:`)} ${message}`));
     }
 
+    async send(serverId: string, channelId: string, message: string): Promise<void> {
+      this.#log(CampfirePlatform.#BOT_USERNAME, message)
+    }
+
     async #requestInput() {
         while (true) {
             const message = await this.#rl.question('> ');

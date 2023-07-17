@@ -1,6 +1,6 @@
 import type { Platform } from '@flare/core';
 import EventEmitter from 'events';
-import { Client, REST, Routes, SlashCommandBuilder } from 'discord.js';
+import { BitFieldResolvable, Client, GatewayIntentsString, Partials, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import { FlareCommand } from '@flare/core/command';
 import { Logger } from '@flare/core/logger';
 import { toFlareInteraction } from './utils/interaction';
@@ -8,17 +8,17 @@ import { toFlareInteraction } from './utils/interaction';
 export class DiscordPlatform extends EventEmitter implements Platform {
   public static readonly NAME = 'discord';
   #client: Client;
-  #options: DiscordPlatform.Options;
+  #options: DiscordPlatform.InternalOptions;
   #commands: Map<string, FlareCommand>;
 
-  constructor(options: DiscordPlatform.Options) {
+  constructor({partials, intents, ...options}: DiscordPlatform.Options) {
     super();
     this.#options = options;
     this.#commands = new Map();
 
     this.#client = new Client({
-      partials: [],
-      intents: []
+      partials,
+      intents
     });
   }
 
@@ -83,11 +83,40 @@ export class DiscordPlatform extends EventEmitter implements Platform {
       console.error(error);
     }
   }
+
+  async send(serverId: string, channelId: string, message: string): Promise<void> {
+    const guild = this.#client.guilds.cache.get(serverId);
+
+    if (!guild) {
+      Logger.error(`Invalid server requested! ()`);
+      return;
+    }
+
+    const channel = await this.#client.channels.cache.get(channelId);
+
+    if (!channel || !channel.isTextBased()) {
+      Logger.error(`Invalid channel requested! ()`);
+      return;
+    }
+
+    await channel.send({
+      content: message
+    });
+  }
 }
 
 export namespace DiscordPlatform {
   export type Options = {
     clientId: string;
     token: string;
+    partials?: Partials[];
+    intents: BitFieldResolvable<GatewayIntentsString, number>;
+  }
+
+  export type InternalOptions = {
+    clientId: string;
+    token: string;
   }
 }
+
+export {Partials} from 'discord.js';

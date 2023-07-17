@@ -29,6 +29,11 @@ export class Flare extends EventEmitter {
             this.emit('error', error);
         });
     }
+
+    async send(serverId: string, channelId: string, message: string): Promise<void> {
+      await this.#options.platform.send(serverId, channelId, message);
+    }
+
 }
 
 export namespace Flare {
