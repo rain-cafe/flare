@@ -49,4 +49,6 @@ export namespace Flarie {
 }
 
 export {CampfirePlatform} from './campfire';
+export {Logger, LogLevel} from './logger';
+export {FlarieCommand} from './command';
 export * from './types';
