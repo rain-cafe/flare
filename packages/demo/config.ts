@@ -1,5 +1,4 @@
-import { LogLevel } from '@flarie/core/logger';
-import chalk from 'chalk';
+import { LogLevel, Logger } from '@flarie/core/logger';
 import { config } from 'dotenv';
 
 export function get<T = string>(defaultValue: T | null, ...names: string[]): T {
@@ -12,7 +11,7 @@ export function get<T = string>(defaultValue: T | null, ...names: string[]): T {
     }
 
     if (defaultValue === null) {
-        console.error(chalk.red(`Expected one of these environment variables "${names.join('", "')}" to be set`))
+        Logger.error(`Expected one of these environment variables "${names.join('", "')}" to be set`);
         throw new Error('Invalid config.');
     }
 

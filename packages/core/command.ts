@@ -1,11 +1,11 @@
 import { Logger } from './logger';
-import { FlareInteraction } from './types';
+import { FlarieInteraction } from './types';
 
-export class FlareCommand {
+export class FlarieCommand {
   #name: string;
-  #callback: FlareCommand.Callback;
+  #callback: FlarieCommand.Callback;
 
-  constructor(format: string, callback: FlareCommand.Callback) {
+  constructor(format: string, callback: FlarieCommand.Callback) {
     const [name, ...parts] = format.split(' ');
 
     this.#name = name;
@@ -20,11 +20,11 @@ export class FlareCommand {
     return this.#name;
   }
 
-  public async invoke(interaction: FlareInteraction): Promise<void> {
+  public async invoke(interaction: FlarieInteraction): Promise<void> {
     return this.#callback(interaction);
   }
 }
 
-export namespace FlareCommand {
-  export type Callback = (interaction: FlareInteraction) => Promise<void>;
+export namespace FlarieCommand {
+  export type Callback = (interaction: FlarieInteraction) => Promise<void>;
 }

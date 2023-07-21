@@ -1,12 +1,12 @@
 import { EventEmitter } from 'node:events';
 import type { Platform } from './types';
 import { LogLevel, Logger } from './logger';
-import { FlareCommand } from './command';
+import { FlarieCommand } from './command';
 
-export class Flare extends EventEmitter {
-    #options: Flare.InternalOptions;
+export class Flarie extends EventEmitter {
+    #options: Flarie.InternalOptions;
 
-    constructor({ commands, level, ...options }: Flare.Options) {
+    constructor({ commands, level, ...options }: Flarie.Options) {
         super();
 
         Logger.setLevel(level);
@@ -36,10 +36,10 @@ export class Flare extends EventEmitter {
 
 }
 
-export namespace Flare {
+export namespace Flarie {
     export type Options = {
         platform: Platform;
-        commands?: FlareCommand[];
+        commands?: FlarieCommand[];
         level?: LogLevel;
     }
 

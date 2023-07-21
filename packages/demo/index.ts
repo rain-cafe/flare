@@ -1,7 +1,7 @@
-import { Flare, CampfirePlatform, Platform, FlareInteraction } from '@flarie/core';
+import { Flarie, CampfirePlatform, Platform, FlarieInteraction } from '@flarie/core';
 import { DiscordPlatform, Partials } from '@flarie/discord';
 import { CONFIG } from './config';
-import { FlareCommand } from '@flarie/core/command';
+import { FlarieCommand } from '@flarie/core/command';
 
 function getPlatform(platform: string): Platform {
   switch (platform) {
@@ -24,16 +24,16 @@ function getPlatform(platform: string): Platform {
   }
 }
 
-const flare = new Flare({
+const flarie = new Flarie({
   platform: getPlatform(CONFIG.PLATFORM),
   commands: [
-    new FlareCommand('ping', async (interaction: FlareInteraction) => {
+    new FlarieCommand('ping', async (interaction: FlarieInteraction) => {
       await interaction.reply('pong!')
     })
   ],
   level: CONFIG.LOG_LEVEL
 });
 
-flare.on('ready', () => {
-  flare.send('966502697341698108', '987612495625719829', 'Rawr!');
+flarie.on('ready', () => {
+  flarie.send('966502697341698108', '987612495625719829', 'Rawr!');
 });

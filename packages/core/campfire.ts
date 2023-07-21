@@ -1,16 +1,16 @@
 import type { Platform } from './types';
-import chalk from 'chalk';
-import * as readline from 'readline/promises';
-import {userInfo} from 'os';
-import EventEmitter from 'events';
-import { FlareCommand } from './command';
+import {cyan, bold} from 'chalk';
+import * as readline from 'node:readline/promises';
+import {userInfo} from 'node:os';
+import { EventEmitter } from 'node:events';
+import { FlarieCommand } from './command';
 
 export class CampfirePlatform extends EventEmitter implements Platform {
     public static readonly NAME = 'campfire';
-    static readonly #BOT_USERNAME = 'flare';
+    static readonly #BOT_USERNAME = 'flarie';
     #rl: readline.Interface;
     #username: string;
-    #commands: Map<string, FlareCommand>;
+    #commands: Map<string, FlarieCommand>;
 
     constructor() {
         super();
@@ -26,7 +26,7 @@ export class CampfirePlatform extends EventEmitter implements Platform {
     }
 
     #log(name: string, message: string) {
-        console.log(chalk.cyan(`${chalk.bold(`[${name}]:`)} ${message}`));
+        console.log(cyan(`${bold(`[${name}]:`)} ${message}`));
     }
 
     async send(serverId: string, channelId: string, message: string): Promise<void> {
@@ -71,7 +71,7 @@ export class CampfirePlatform extends EventEmitter implements Platform {
         this.#requestInput();
     }
 
-    async register(commands: FlareCommand[]): Promise<void> {
+    async register(commands: FlarieCommand[]): Promise<void> {
       for (const command of commands) {
         this.#commands.set(command.name, command);
       }

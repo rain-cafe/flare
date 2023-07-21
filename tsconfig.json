@@ -8,10 +8,9 @@
     "compilerOptions": {
         "resolveJsonModule": true,
         "lib": ["ES2022"],
-        "module": "commonjs",
+        "module": "NodeNext",
         "target": "ES2022",
         "declaration": true,
-        "declarationDir": "./types",
         "baseUrl": "./"
     },
     "include": [

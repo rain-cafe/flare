@@ -1,6 +1,15 @@
 {
   "name": "@flarie/core",
+  "version": "1.0.0",
   "packageManager": "yarn@3.6.1",
+  "source": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "yarn run build:esbuild && yarn run build:types",
+    "build:esbuild": "esbuild index.ts --platform=node --target=node18 --bundle --outfile=dist/index.js --packages=external",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outFile dist/index.d.ts index.ts"
+  },
   "dependencies": {
     "chalk": "^3"
   }

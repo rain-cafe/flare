@@ -1,15 +1,15 @@
 import type { Platform } from '@flarie/core';
 import { EventEmitter } from 'node:events';
 import { BitFieldResolvable, Client, GatewayIntentsString, Partials, REST, Routes, SlashCommandBuilder } from 'discord.js';
-import { FlareCommand } from '@flarie/core/command';
+import { FlarieCommand } from '@flarie/core/command';
 import { Logger } from '@flarie/core/logger';
-import { toFlareInteraction } from './utils/interaction';
+import { toFlarieInteraction } from './utils/interaction';
 
 export class DiscordPlatform extends EventEmitter implements Platform {
   public static readonly NAME = 'discord';
   #client: Client;
   #options: DiscordPlatform.InternalOptions;
-  #commands: Map<string, FlareCommand>;
+  #commands: Map<string, FlarieCommand>;
 
   constructor({partials, intents, ...options}: DiscordPlatform.Options) {
     super();
@@ -38,7 +38,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
     Logger.info('Successfully deleted all application commands.');
   }
 
-  async register(commands: FlareCommand[]): Promise<void> {
+  async register(commands: FlarieCommand[]): Promise<void> {
     const rest = new REST({ version: '10' }).setToken(this.#options.token);
 
     try {
@@ -67,7 +67,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
         if (!command) return;
 
         try {
-          await command.invoke(toFlareInteraction(interaction));
+          await command.invoke(toFlarieInteraction(interaction));
         } catch (error) {
           await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
         }

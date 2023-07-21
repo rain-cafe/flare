@@ -1,0 +1,13 @@
+{
+  "name": "@flarie/demo",
+  "packageManager": "yarn@3.6.1",
+  "private": true,
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@flarie/core": "workspace:^",
+    "@flarie/discord": "workspace:^",
+    "dotenv": "^16.3.1"
+  }
+}
