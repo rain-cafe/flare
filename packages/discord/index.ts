@@ -1,8 +1,8 @@
-import type { Platform } from '@flare/core';
-import EventEmitter from 'events';
+import type { Platform } from '@flarie/core';
+import { EventEmitter } from 'node:events';
 import { BitFieldResolvable, Client, GatewayIntentsString, Partials, REST, Routes, SlashCommandBuilder } from 'discord.js';
-import { FlareCommand } from '@flare/core/command';
-import { Logger } from '@flare/core/logger';
+import { FlareCommand } from '@flarie/core/command';
+import { Logger } from '@flarie/core/logger';
 import { toFlareInteraction } from './utils/interaction';
 
 export class DiscordPlatform extends EventEmitter implements Platform {

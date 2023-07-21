@@ -1,0 +1,7 @@
+{
+  "name": "@flarie/core",
+  "packageManager": "yarn@3.6.1",
+  "dependencies": {
+    "chalk": "^3"
+  }
+}

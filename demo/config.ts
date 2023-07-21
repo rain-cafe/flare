@@ -1,4 +1,4 @@
-import { LogLevel } from '@flare/core/logger';
+import { LogLevel } from '@flarie/core/logger';
 import chalk from 'chalk';
 import { config } from 'dotenv';
 

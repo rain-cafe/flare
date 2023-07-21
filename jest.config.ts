@@ -1,7 +1,5 @@
-import { pathsToModuleNameMapper } from 'ts-jest';
-import { compilerOptions } from "./tsconfig.json";
-import type { JestConfigWithTsJest } from "ts-jest";
-import { defaults as tsjPreset } from "ts-jest/presets";
+import type { JestConfigWithTsJest } from 'ts-jest';
+import { defaults as tsjPreset } from 'ts-jest/presets';
 
 const jestConfig: JestConfigWithTsJest = {
   testEnvironment: 'node',
@@ -19,9 +17,6 @@ const jestConfig: JestConfigWithTsJest = {
    */
   coverageProvider: 'v8',
 
-  moduleNameMapper: pathsToModuleNameMapper(
-    compilerOptions.paths /*, { prefix: '<rootDir>/' } */
-  ),
   modulePaths: ['<rootDir>'],
 };
 

@@ -1,7 +1,7 @@
-import { Flare, CampfirePlatform, Platform, FlareInteraction } from '@flare/core';
-import { DiscordPlatform, Partials } from '@flare/discord';
+import { Flare, CampfirePlatform, Platform, FlareInteraction } from '@flarie/core';
+import { DiscordPlatform, Partials } from '@flarie/discord';
 import { CONFIG } from './config';
-import { FlareCommand } from '@flare/core/command';
+import { FlareCommand } from '@flarie/core/command';
 
 function getPlatform(platform: string): Platform {
   switch (platform) {

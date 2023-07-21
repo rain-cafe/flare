@@ -1,4 +1,4 @@
-import { FlareInteraction } from '@flare/core';
+import { FlareInteraction } from '@flarie/core';
 import { CacheType, ChatInputCommandInteraction, MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction } from 'discord.js';
 
 export function toFlareInteraction(interaction: ChatInputCommandInteraction<CacheType> | MessageContextMenuCommandInteraction<CacheType> | UserContextMenuCommandInteraction<CacheType>): FlareInteraction {

@@ -7,23 +7,12 @@
     },
     "compilerOptions": {
         "resolveJsonModule": true,
-        "experimentalDecorators": true,
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "module": "Node16",
-        "moduleResolution": "node",
-        "skipLibCheck": true,
+        "lib": ["ES2022"],
+        "module": "commonjs",
+        "target": "ES2022",
         "declaration": true,
-        "strict": true,
         "declarationDir": "./types",
-        "target": "es6",
-        "baseUrl": "./",
-        "paths": {
-            "@flare/*": [
-                "packages/*"
-            ]
-        }
+        "baseUrl": "./"
     },
     "include": [
         "packages/**/*",

@@ -19,14 +19,17 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
+          cache: 'yarn'
       - name: Install Packages
-        run: npm ci
+        run: yarn install --frozen-lockfile
       - name: Linting
-        run: npm run lint
+        run: yarn run lint
       - name: Coverage
-        run: npm run test:coverage --  --no-cache --runInBand --detectOpenHandles --verbose
+        run: yarn run test:coverage
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      # - run: yarn publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

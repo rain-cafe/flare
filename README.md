@@ -18,9 +18,9 @@
 
 <p align="center">
 	<strong>
-		<!-- <a href="https://flare.github.io">API</a> -->
+		<!-- <a href="https://flarie.github.io">API</a> -->
 		<!-- • -->
-		<a href="https://rain-cafe.gitbook.io/flare/">Docs</a>
+		<a href="https://rain-cafe.gitbook.io/flarie/">Docs</a>
 		<!-- • -->
 		<!-- <a href="https://salte-auth-demo.glitch.me">Demo</a> -->
 	</strong>
@@ -46,19 +46,19 @@
 ## Install
 
 ```sh
-# Install the Flare Core
-$ npm install @flare/core
+# Install the Flarie Core
+$ npm install @flarie/core
 # Install any Platforms you need
-$ npm install @flare/discord
+$ npm install @flarie/discord
 ```
 
 ## Usage
 
 ```ts
-import { Flare, CampfirePlatform } from '@flare/core';
-import { DiscordPlatform } from '@flare/discord';
+import { Flarie, CampfirePlatform } from '@flarie/core';
+import { DiscordPlatform } from '@flarie/discord';
 
-const flare = new Flare({
+const flarie = new Flarie({
     platform: new DiscordPlatform({
       token: '<your-discord-bot-token-here>'
     });,
@@ -71,15 +71,15 @@ _These are issues that we know about, but don't have a clear fix for!_
 
 **There are currently no known issues, thanks for checking!**
 
-[npm-version-image]: https://img.shields.io/npm/v/@flare/flare.svg?style=flat
-[npm-downloads-image]: https://img.shields.io/npm/dm/@flare/flare.svg?style=flat
-[npm-url]: https://npmjs.org/package/@flare/flare
+[npm-version-image]: https://img.shields.io/npm/v/@flarie/core.svg?style=flat
+[npm-downloads-image]: https://img.shields.io/npm/dm/@flarie/core.svg?style=flat
+[npm-url]: https://npmjs.org/package/@flarie/core
 
-[github-actions-image]: https://github.com/rain-cafe/flare/actions/workflows/ci.yml/badge.svg?branch=main
-[github-actions-url]: https://github.com/rain-cafe/flare/actions/workflows/ci.yml
+[github-actions-image]: https://github.com/rain-cafe/flarie/actions/workflows/ci.yml/badge.svg?branch=main
+[github-actions-url]: https://github.com/rain-cafe/flarie/actions/workflows/ci.yml
 
-[coveralls-image]: https://img.shields.io/coveralls/rain-cafe/flare.svg
-[coveralls-url]: https://coveralls.io/github/rain-cafe/flare?branch=main
+[coveralls-image]: https://img.shields.io/coveralls/rain-cafe/flarie.svg
+[coveralls-url]: https://coveralls.io/github/rain-cafe/flarie?branch=main
 
 [semantic-release-url]: https://github.com/semantic-release/semantic-release
 [semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg

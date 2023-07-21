@@ -1,5 +1,5 @@
-import {EventEmitter} from 'events';
-import type {Platform} from './types';
+import { EventEmitter } from 'node:events';
+import type { Platform } from './types';
 import { LogLevel, Logger } from './logger';
 import { FlareCommand } from './command';
 
