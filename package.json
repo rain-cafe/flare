@@ -11,9 +11,9 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint packages/**/*.ts",
     "build": "yarn workspaces foreach -pt run build",
-    "v:patch": "yarn workspaces foreach -p version patch",
-    "v:minor": "yarn workspaces foreach -p version minor",
-    "v:major": "yarn workspaces foreach -p version major",
+    "v:patch": "yarn workspaces foreach -p --no-private version patch",
+    "v:minor": "yarn workspaces foreach -p --no-private version minor",
+    "v:major": "yarn workspaces foreach -p --no-private version major",
     "publish": "yarn workspaces foreach -p --no-private npm publish --access public"
   },
   "devDependencies": {
@@ -22,15 +22,14 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
-    "esbuild": "^0.18.15",
     "eslint": "^8.45.0",
     "jest": "^29.6.1",
     "microbundle": "^0.15.1",
-    "parcel": "^2.9.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "tsc": "^2.0.4",
-    "tsconfig-paths": "^4.2.0",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "dependencies": {
     "typescript": "^5.1.6"
   }
 }
