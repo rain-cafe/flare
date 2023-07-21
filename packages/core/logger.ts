@@ -29,7 +29,7 @@ export class Logger {
     Logger.#level = level;
   }
 
-  public static log(level: LogLevel, ...message: string[]) {
+  public static log(level: LogLevel, ...message: any[]) {
     if (Logger.#level < level) return;
 
     const chalk = LEVEL_CHALK[level];
@@ -37,19 +37,19 @@ export class Logger {
     console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`));
   }
 
-  public static error(...message: string[]) {
+  public static error(...message: any[]) {
     Logger.log(LogLevel.ERROR, ...message);
   }
 
-  public static warn(...message: string[]) {
+  public static warn(...message: any[]) {
     Logger.log(LogLevel.WARN, ...message);
   }
 
-  public static info(...message: string[]) {
+  public static info(...message: any[]) {
     Logger.log(LogLevel.INFO, ...message);
   }
 
-  public static silly(...message: string[]) {
+  public static silly(...message: any[]) {
     Logger.log(LogLevel.SILLY, ...message);
   }
 }

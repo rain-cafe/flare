@@ -18,6 +18,10 @@ export class DiscordPlatform extends EventEmitter implements Platform {
       partials,
       intents
     });
+
+    this.#client.on('ready', () => {
+      this.emit('ready');
+    });
   }
 
   async authenticate(): Promise<void> {
@@ -86,14 +90,16 @@ export class DiscordPlatform extends EventEmitter implements Platform {
     const guild = this.#client.guilds.cache.get(serverId);
 
     if (!guild) {
-      Logger.error(`Invalid server requested! ()`);
+      Logger.error(`Invalid server requested! (${serverId})`);
       return;
     }
 
-    const channel = await this.#client.channels.cache.get(channelId);
+    const channel = await this.#client.channels.fetch(channelId);
+
+    Logger.silly('Channel: ', channel);
 
     if (!channel || !channel.isTextBased()) {
-      Logger.error(`Invalid channel requested! ()`);
+      Logger.error(`Invalid channel requested! (${channelId})`);
       return;
     }
 

@@ -34,6 +34,8 @@ export class CampfirePlatform extends EventEmitter implements Platform {
     }
 
     async #requestInput() {
+      this.emit('ready');
+
         while (true) {
             const message = await this.#rl.question('> ');
 

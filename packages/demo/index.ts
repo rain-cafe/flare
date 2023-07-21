@@ -11,6 +11,7 @@ function getPlatform(platform: string): Platform {
         clientId: CONFIG.DISCORD_CLIENT_ID,
         token: CONFIG.DISCORD_TOKEN,
         partials: [
+          Partials.Channel,
           Partials.GuildMember,
         ],
         intents: [

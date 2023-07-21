@@ -3,7 +3,7 @@
 
 <h2 align="center">
   <div>
-    <a href="https://github.com/rain-cafe/logos">
+    <a href="https://github.com/rain-cafe/flarie">
       <img height="240px" src="https://raw.githubusercontent.com/rain-cafe/logos/main/flarie/logo.svg?sanitize=true">
       <br>
       <br>

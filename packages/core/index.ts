@@ -14,8 +14,6 @@ export class Flarie extends EventEmitter {
         this.#options = options;
 
         this.#options.platform.authenticate().then(async () => {
-            this.emit('ready');
-
             Logger.info('Successfully authenticated with platform.');
 
             if (commands) {
@@ -28,6 +26,8 @@ export class Flarie extends EventEmitter {
         }).catch((error) => {
             this.emit('error', error);
         });
+        
+        this.#options.platform.on('ready', () => this.emit('ready'));
     }
 
     async send(serverId: string, channelId: string, message: string): Promise<void> {

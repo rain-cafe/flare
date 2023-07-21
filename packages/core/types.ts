@@ -16,6 +16,8 @@ export declare interface Platform extends EventEmitter {
   authenticate(): Promise<void>;
   register(commands: FlarieCommand[]): Promise<void>;
 
+  on(event: 'ready', callback: () => void): this;
   on(event: 'message', callback: (envelope: MessageEnvelope) => void): this;
+  emit(event: 'ready'): boolean;
   emit(event: 'message', envelope: MessageEnvelope): boolean;
 }
