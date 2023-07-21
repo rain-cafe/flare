@@ -1,9 +1,7 @@
-import type { Platform } from '@flarie/core';
+import { Logger, FlarieCommand, type Platform } from '@flarie/core';
 import { EventEmitter } from 'node:events';
 import { BitFieldResolvable, Client, GatewayIntentsString, Partials, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import { toFlarieInteraction } from './utils/interaction';
-import { Logger } from '@flarie/core';
-import { FlarieCommand } from '@flarie/core';
 
 export class DiscordPlatform extends EventEmitter implements Platform {
   public static readonly NAME = 'discord';
