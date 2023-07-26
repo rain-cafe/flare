@@ -1,4 +1,4 @@
-import { FlarieContext, FlarieDMContext, FlarieInteraction, FlarieServerContext, Logger } from '@flarie/core';
+import { FlarieContext, FlarieDMContext, FlarieInteraction, FlarieServerContext } from '@flarie/core';
 import { CacheType, ChatInputCommandInteraction, MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction } from 'discord.js';
 
 export function getContext(interaction: ChatInputCommandInteraction<CacheType> | MessageContextMenuCommandInteraction<CacheType> | UserContextMenuCommandInteraction<CacheType>): FlarieContext {
@@ -25,14 +25,18 @@ export function getContext(interaction: ChatInputCommandInteraction<CacheType> |
 
 export function toFlarieInteraction(interaction: ChatInputCommandInteraction<CacheType> | MessageContextMenuCommandInteraction<CacheType> | UserContextMenuCommandInteraction<CacheType>): FlarieInteraction {
   return {
-    reply: async (message) => {
+    async reply(message) {
       await interaction.reply(typeof message === 'string' ? {
         content: message
       } : {
         content: message.content,
         ephemeral: message.ephemeral
       });
+
+      this.replied = true;
     },
+
+    replied: false,
     context: getContext(interaction)
   }
 }

@@ -1,4 +1,4 @@
-import { Logger, FlarieCommand, type Platform } from '@flarie/core';
+import { Logger, FlarieCommand, type Platform, FlarieError } from '@flarie/core';
 import { EventEmitter } from 'node:events';
 import { BitFieldResolvable, Client, GatewayIntentsString, Partials, PermissionFlagsBits, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import { toFlarieInteraction } from './utils/interaction';
@@ -69,24 +69,32 @@ export class DiscordPlatform extends EventEmitter implements Platform {
         })
       });
 
-      this.#client.on('interactionCreate', async (interaction) => {
-        if (!interaction.isCommand()) return;
+      this.#client.on('interactionCreate', async (discordInteraction) => {
+        if (!discordInteraction.isCommand()) return;
 
-        const command = this.#commands.get(interaction.commandName);
+        const command = this.#commands.get(discordInteraction.commandName);
 
         if (!command) return;
 
-        try {
-          await command.invoke(toFlarieInteraction(interaction));
-        } catch (error) {
-          await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-        }
+        const interaction = toFlarieInteraction(discordInteraction);
 
-        if (!interaction.replied) {
-          await interaction.reply({
-            content: 'Your command completed, but you never told anyone about it! :<',
-            ephemeral: true
-          });
+        try {
+          await command.invoke(interaction);
+
+          if (!interaction.replied) {
+            await interaction.reply({
+              content: 'Your command completed, but you never told anyone about it! :<',
+              ephemeral: true
+            });
+          }
+        } catch (error) {
+          if (error instanceof FlarieError) {
+            Logger.log(error.level, error.message);
+            await interaction.reply(error.toFlarieMessage());
+          } else {
+            Logger.error(error.toString());
+            await interaction.reply('There was an error while executing this command!');
+          }
         }
       });
     } catch (error) {

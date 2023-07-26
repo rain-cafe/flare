@@ -10,7 +10,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint packages/**/*.ts",
-    "build": "yarn workspaces foreach -pt run build",
+    "build": "yarn workspaces foreach run build",
     "v:patch": "yarn workspaces foreach -p --no-private version patch",
     "v:minor": "yarn workspaces foreach -p --no-private version minor",
     "v:major": "yarn workspaces foreach -p --no-private version major",

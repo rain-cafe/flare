@@ -5,3 +5,4 @@ export * from './platform';
 export * from './message';
 export * from './channel';
 export * from './server';
+export * from './error';

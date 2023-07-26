@@ -4,6 +4,8 @@ import * as readline from 'node:readline/promises';
 import {userInfo} from 'node:os';
 import { EventEmitter } from 'node:events';
 import { FlarieCommand } from './types/command';
+import { FlarieError } from './types/error';
+import { Logger } from './logger';
 
 export class CampfirePlatform extends EventEmitter implements Platform {
     public static readonly NAME = 'campfire';
@@ -33,10 +35,14 @@ export class CampfirePlatform extends EventEmitter implements Platform {
       }
     }
 
-    async send(serverId: string, channelId: string, message: string): Promise<void> {
-      this.#log(CampfirePlatform.#BOT_USERNAME, {
+    async send(serverId: string, channelId: string, message: string | FlarieMessage): Promise<void> {
+      this.#log(CampfirePlatform.#BOT_USERNAME, typeof message === 'string' ? {
         content: message
-      })
+      } : message);
+    }
+
+    async #send(message: string | FlarieMessage): Promise<void> {
+      this.send('campfire', 'campfire', message);
     }
 
     async #requestInput() {
@@ -59,23 +65,33 @@ export class CampfirePlatform extends EventEmitter implements Platform {
 
               if (!command) return;
 
-              await command.invoke({
-                reply: async (message) => {
-                  this.#log(CampfirePlatform.#BOT_USERNAME, typeof message === 'string' ? {
-                    content: message
-                  } : message);
-                },
-                context: new FlarieServerContext({
-                  server: {
-                    id: 'server-id',
-                    name: 'server-name',
+              try {
+                await command.invoke({
+                  async reply(message) {
+                    this.#send(message);
+                    this.replied = true;
                   },
-                  channel: {
-                    id: 'channel-id',
-                    name: 'channel-name',
-                  },
-                })
-              })
+                  replied: false,
+                  context: new FlarieServerContext({
+                    server: {
+                      id: 'server-id',
+                      name: 'server-name',
+                    },
+                    channel: {
+                      id: 'channel-id',
+                      name: 'channel-name',
+                    },
+                  })
+                });
+              } catch (error) {
+                if (error instanceof FlarieError) {
+                  Logger.log(error.level, error.message);
+                    await this.#send(error.toFlarieMessage());
+                } else {
+                    Logger.error(error.toString());
+                    await this.#send('There was an error while executing this command!');
+                }
+              }
             } else {
               this.#log(this.#username, {
                 content: message
@@ -92,9 +108,7 @@ export class CampfirePlatform extends EventEmitter implements Platform {
     async authenticate(): Promise<void> {
         await new Promise((resolve) => setTimeout(resolve));
 
-        this.#log(CampfirePlatform.#BOT_USERNAME, {
-          content: `Welcome ${this.#username}!`
-        });
+        this.#send(`Welcome ${this.#username}!`);
 
         this.#requestInput();
     }
