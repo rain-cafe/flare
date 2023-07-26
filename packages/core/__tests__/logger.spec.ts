@@ -25,6 +25,13 @@ describe('util(Logger)', () => {
             // expect(log).toHaveBeenCalledWith(`[info]:  ${expectedMessage}`);
         });
 
+        it('should support objects', () => {
+          Logger.log(LogLevel.INFO, {hello: 'world'});
+
+          // expect(log).toHaveBeenCalledWith(LEVEL_CHALK[LogLevel.INFO](`[info]:  ${expectedMessage}`));
+          // expect(log).toHaveBeenCalledWith(`[info]:  ${expectedMessage}`);
+        });
+
         it('should not output a console log if the current log level is below the required level', () => {
             Logger.setLevel(LogLevel.ERROR);
 
