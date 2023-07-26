@@ -1,9 +1,9 @@
-import { FlarieContextTypes, type FlarieMessage, type Platform } from './types';
+import { FlarieServerContext, type FlarieMessage, type Platform } from './types';
 import {cyan, magenta, bold, italic} from 'chalk';
 import * as readline from 'node:readline/promises';
 import {userInfo} from 'node:os';
 import { EventEmitter } from 'node:events';
-import { FlarieCommand } from './command';
+import { FlarieCommand } from './types/command';
 
 export class CampfirePlatform extends EventEmitter implements Platform {
     public static readonly NAME = 'campfire';
@@ -65,11 +65,16 @@ export class CampfirePlatform extends EventEmitter implements Platform {
                     content: message
                   } : message);
                 },
-                context: {
-                  type: FlarieContextTypes.SERVER,
-                  serverId: 'server',
-                  channelId: 'channel'
-                }
+                context: new FlarieServerContext({
+                  server: {
+                    id: 'server-id',
+                    name: 'server-name',
+                  },
+                  channel: {
+                    id: 'channel-id',
+                    name: 'channel-name',
+                  },
+                })
               })
             } else {
               this.#log(this.#username, {

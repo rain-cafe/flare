@@ -1,4 +1,4 @@
-import { FlarieInteraction } from './types';
+import { FlarieInteraction } from './interaction';
 
 export class FlarieCommand {
   public readonly name: string;

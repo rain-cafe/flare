@@ -1,4 +1,5 @@
 import {Chalk, red, yellow, cyan, magenta} from 'chalk';
+import { jsonStringifyRecursive } from './utils/stringify';
 
 export enum LogLevel {
   ERROR,
@@ -37,12 +38,16 @@ export class Logger {
     Logger.#level = level;
   }
 
-  public static log(level: LogLevel, ...message: any[]) {
+  public static log(level: LogLevel, ...rawMessages: any[]) {
     if (Logger.isNotLevel(level)) return
 
     const chalk = LEVEL_CHALK[level];
 
-    console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${message.join(' ')}`));
+    const messages = rawMessages.map((rawMessage) => {
+      return typeof rawMessage === 'object' ? jsonStringifyRecursive(rawMessage) : rawMessage;
+    });
+
+    console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${messages.join(' ')}`));
   }
 
   public static error(...message: any[]) {

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events';
 import type { Platform } from './types';
 import { LogLevel, Logger } from './logger';
-import { FlarieCommand } from './command';
+import { FlarieCommand } from './types/command';
 
 export class Flarie extends EventEmitter {
     #options: Flarie.InternalOptions;
@@ -59,5 +59,5 @@ export namespace Flarie {
 
 export {CampfirePlatform} from './campfire';
 export {Logger, LogLevel} from './logger';
-export {FlarieCommand} from './command';
+export {FlarieCommand} from './types/command';
 export * from './types';
