@@ -11,6 +11,12 @@ export function getContext(interaction: ChatInputCommandInteraction<CacheType> |
       channel: {
         id: interaction.channel.id,
         name: interaction.channel.name
+      },
+      user: {
+        id: interaction.user.id,
+        username: interaction.user.username,
+        displayName: interaction.user.discriminator,
+        bot: interaction.user.bot
       }
     });
   }
@@ -19,6 +25,12 @@ export function getContext(interaction: ChatInputCommandInteraction<CacheType> |
     channel: {
       id: interaction.channelId,
       name: interaction.user.username
+    },
+    user: {
+      id: interaction.user.id,
+      username: interaction.user.username,
+      displayName: interaction.user.discriminator,
+      bot: interaction.user.bot
     }
   });
 }

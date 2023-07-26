@@ -1,5 +1,6 @@
 import { FlarieChannel } from "./channel";
 import { FlarieServer } from "./server";
+import { FlarieUser } from "./user";
 
 export enum FlarieContextTypes {
   SERVER,
@@ -13,6 +14,8 @@ export class FlarieContext {
    * The channel info
    */
   channel: FlarieChannel;
+
+  user: FlarieUser;
 
   constructor(options: FlarieContext.Options) {
     this.type = options.type;
@@ -60,26 +63,25 @@ export class FlarieDMContext extends FlarieContext {
 export namespace FlarieContext {
   export type Options = ServerOptions | DMOptions;
 
-  export type ServerOptions = {
+  type SharedOptions = {
+    /**
+     * The channel info
+     */
+    channel: FlarieChannel;
+
+    user: FlarieUser;
+  }
+
+  export type ServerOptions = SharedOptions & {
     type: FlarieContextTypes.SERVER;
 
     /**
      * The server info
      */
     server: FlarieServer;
+  };
 
-    /**
-     * The channel info
-     */
-    channel: FlarieChannel;
-  }
-
-  export type DMOptions = {
+  export type DMOptions = SharedOptions & {
     type: FlarieContextTypes.DM;
-
-    /**
-     * The channel info
-     */
-    channel: FlarieChannel;
   }
 }

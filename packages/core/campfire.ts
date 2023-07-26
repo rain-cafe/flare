@@ -81,6 +81,12 @@ export class CampfirePlatform extends EventEmitter implements Platform {
                       id: 'channel-id',
                       name: 'channel-name',
                     },
+                    user: {
+                      id: this.#username,
+                      username: this.#username,
+                      displayName: this.#username,
+                      bot: false,
+                    }
                   })
                 });
               } catch (error) {

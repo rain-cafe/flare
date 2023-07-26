@@ -6,3 +6,4 @@ export * from './message';
 export * from './channel';
 export * from './server';
 export * from './error';
+export * from './user';
