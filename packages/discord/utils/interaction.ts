@@ -4,8 +4,11 @@ import { CacheType, ChatInputCommandInteraction, MessageContextMenuCommandIntera
 export function toFlarieInteraction(interaction: ChatInputCommandInteraction<CacheType> | MessageContextMenuCommandInteraction<CacheType> | UserContextMenuCommandInteraction<CacheType>): FlarieInteraction {
   return {
     reply: async (message) => {
-      await interaction.reply({
+      await interaction.reply(typeof message === 'string' ? {
         content: message
+      } : {
+        content: message.content,
+        ephemeral: message.ephemeral
       });
     }
   }

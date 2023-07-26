@@ -1,5 +1,5 @@
-import type { Platform } from './types';
-import {cyan, bold} from 'chalk';
+import type { FlarieMessage, Platform } from './types';
+import {cyan, magenta, bold, italic} from 'chalk';
 import * as readline from 'node:readline/promises';
 import {userInfo} from 'node:os';
 import { EventEmitter } from 'node:events';
@@ -25,12 +25,18 @@ export class CampfirePlatform extends EventEmitter implements Platform {
         this.#username = userInfo().username;
     }
 
-    #log(name: string, message: string) {
-        console.log(cyan(`${bold(`[${name}]:`)} ${message}`));
+    #log(name: string, message: FlarieMessage) {
+      if (message.ephemeral) {
+        console.log(magenta(italic(`[${name}][e]: ${message.content}`)));
+      } else {
+        console.log(cyan(`${bold(`[${name}]:`)} ${message.content}`));
+      }
     }
 
     async send(serverId: string, channelId: string, message: string): Promise<void> {
-      this.#log(CampfirePlatform.#BOT_USERNAME, message)
+      this.#log(CampfirePlatform.#BOT_USERNAME, {
+        content: message
+      })
     }
 
     async #requestInput() {
@@ -44,7 +50,9 @@ export class CampfirePlatform extends EventEmitter implements Platform {
             process.stdout.clearLine(0);
             process.stdout.cursorTo(0);
 
-            if (message.startsWith('/')) {
+            if (['exit', 'quit'].includes(message)) {
+              process.exit(0);
+            } else if (message.startsWith('/')) {
               const [name] = message.replace('/', '').split(' ');
 
               const command = this.#commands.get(name);
@@ -52,10 +60,16 @@ export class CampfirePlatform extends EventEmitter implements Platform {
               if (!command) return;
 
               await command.invoke({
-                reply: async (message) => this.#log(CampfirePlatform.#BOT_USERNAME, message)
+                reply: async (message) => {
+                  this.#log(CampfirePlatform.#BOT_USERNAME, typeof message === 'string' ? {
+                    content: message
+                  } : message);
+                }
               })
             } else {
-              this.#log(this.#username, message);
+              this.#log(this.#username, {
+                content: message
+              });
               this.emit('message', {
                   id: this.#username,
                   username: this.#username,
@@ -68,7 +82,9 @@ export class CampfirePlatform extends EventEmitter implements Platform {
     async authenticate(): Promise<void> {
         await new Promise((resolve) => setTimeout(resolve));
 
-        this.#log(CampfirePlatform.#BOT_USERNAME, `Welcome ${this.#username}!`);
+        this.#log(CampfirePlatform.#BOT_USERNAME, {
+          content: `Welcome ${this.#username}!`
+        });
 
         this.#requestInput();
     }

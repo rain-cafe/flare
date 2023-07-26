@@ -9,7 +9,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
   #options: DiscordPlatform.InternalOptions;
   #commands: Map<string, FlarieCommand>;
 
-  constructor({partials, intents, ...options}: DiscordPlatform.Options) {
+  constructor({username, partials, intents, ...options}: DiscordPlatform.Options) {
     super();
     this.#options = options;
     this.#commands = new Map();
@@ -19,8 +19,16 @@ export class DiscordPlatform extends EventEmitter implements Platform {
       intents
     });
 
-    this.#client.on('ready', () => {
+    this.#client.on('ready', async () => {
       this.emit('ready');
+
+      const promises: Promise<any>[] = [];
+
+      if (username) {
+        promises.push(this.#client.user.setUsername(username));
+      }
+
+      await Promise.all(promises);
     });
   }
 
@@ -111,6 +119,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
 
 export namespace DiscordPlatform {
   export type Options = {
+    username?: string;
     clientId: string;
     token: string;
     partials?: Partials[];

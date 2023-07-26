@@ -8,6 +8,7 @@ function getPlatform(platform: string): Platform {
       return new CampfirePlatform();
     case DiscordPlatform.NAME:
       return new DiscordPlatform({
+        username: 'Flarie (Dev)',
         clientId: CONFIG.DISCORD_CLIENT_ID,
         token: CONFIG.DISCORD_TOKEN,
         partials: [
@@ -28,7 +29,10 @@ const flarie = new Flarie({
   platform: getPlatform(CONFIG.PLATFORM),
   commands: [
     new FlarieCommand('ping', async (interaction: FlarieInteraction) => {
-      await interaction.reply('pong!')
+      await interaction.reply({
+        content: 'pong!',
+        ephemeral: true
+      })
     })
   ],
   level: CONFIG.LOG_LEVEL

@@ -8,8 +8,13 @@ export type MessageEnvelope = {
 }
 
 export type FlarieInteraction = {
-  reply(message: string): Promise<void>;
+  reply(message: string | FlarieMessage): Promise<void>;
 };
+
+export type FlarieMessage = {
+  content: string;
+  ephemeral?: boolean;
+}
 
 export declare interface Platform extends EventEmitter {
   send(serverId: string, channelId: string, message: string): Promise<void>;
