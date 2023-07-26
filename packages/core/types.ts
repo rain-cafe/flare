@@ -12,28 +12,30 @@ export enum FlarieContextTypes {
   DM
 };
 
+export type FlarieContext = {
+  /**
+   * Whether this message occurred in a DM or a Server.
+   */
+  type: FlarieContextTypes;
+
+  /**
+   * The id of the server this interaction was sent in
+   */
+  serverId?: string;
+
+  /**
+   * The id of the channel / dm this interaction was sent in
+   */
+  channelId: string;
+};
+
 export type FlarieInteraction = {
   reply(message: string | FlarieMessage): Promise<void>;
 
   /**
    * The context the interaction occurred in.
    */
-  context: {
-    /**
-     * Whether this message occurred in a DM or a Server.
-     */
-    type: FlarieContextTypes;
-
-    /**
-     * The id of the server this interaction was sent in
-     */
-    serverId?: string;
-
-    /**
-     * The id of the channel / dm this interaction was sent in
-     */
-    channelId: string;
-  };
+  context: FlarieContext;
 };
 
 export type FlarieMessage = {
