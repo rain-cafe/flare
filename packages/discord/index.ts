@@ -1,6 +1,6 @@
 import { Logger, FlarieCommand, type Platform } from '@flarie/core';
 import { EventEmitter } from 'node:events';
-import { BitFieldResolvable, Client, GatewayIntentsString, Partials, REST, Routes, SlashCommandBuilder } from 'discord.js';
+import { BitFieldResolvable, Client, GatewayIntentsString, Partials, PermissionFlagsBits, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import { toFlarieInteraction } from './utils/interaction';
 
 export class DiscordPlatform extends EventEmitter implements Platform {
@@ -62,9 +62,9 @@ export class DiscordPlatform extends EventEmitter implements Platform {
         body: commands.map((command) => {
           return new SlashCommandBuilder()
             .setName(command.name)
-            .setDescription('rawr')
-            .setDefaultMemberPermissions('0')
-            .setDMPermission(false)
+            .setDescription(command.description)
+            .setDefaultMemberPermissions(command.disabled ? '0' : PermissionFlagsBits.UseApplicationCommands)
+            .setDMPermission(command.allowDMs)
             .toJSON();
         })
       });

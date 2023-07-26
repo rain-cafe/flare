@@ -13,27 +13,36 @@ export class Flarie extends EventEmitter {
 
         this.#options = options;
 
-        this.#options.platform.authenticate().then(async () => {
+        const promises: Promise<void>[] = [];
+
+        promises.push(this.#options.platform.authenticate().then(async () => {
             Logger.info('Successfully authenticated with platform.');
 
             if (commands) {
-              Logger.silly('Registering commands with platform...');
-
-              await this.#options.platform.register(commands);
-
-              Logger.info('Successfully registered commands with platform.');
+              await this.#register(commands);
             }
-        }).catch((error) => {
-            this.emit('error', error);
+        }));
+
+        promises.push(new Promise((resolve) => this.#options.platform.once('ready', () => resolve())));
+
+        Promise.all(promises).then(() => {
+          this.emit('ready');
+        }).catch((errors) => {
+          this.emit('error', errors);
         });
-        
-        this.#options.platform.on('ready', () => this.emit('ready'));
+    }
+
+    async #register(commands: FlarieCommand[]): Promise<void> {
+      Logger.silly('Registering commands with platform...');
+
+      await this.#options.platform.register(commands);
+
+      Logger.info('Successfully registered commands with platform.');
     }
 
     async send(serverId: string, channelId: string, message: string): Promise<void> {
       await this.#options.platform.send(serverId, channelId, message);
     }
-
 }
 
 export namespace Flarie {

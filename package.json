@@ -14,7 +14,7 @@
     "v:patch": "yarn workspaces foreach -p --no-private version patch",
     "v:minor": "yarn workspaces foreach -p --no-private version minor",
     "v:major": "yarn workspaces foreach -p --no-private version major",
-    "publish": "yarn workspaces foreach -p --no-private npm publish --access public"
+    "publish": "yarn build && yarn workspaces foreach -p --no-private npm publish --access public"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",

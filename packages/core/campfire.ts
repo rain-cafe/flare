@@ -1,4 +1,4 @@
-import type { FlarieMessage, Platform } from './types';
+import { FlarieContextTypes, type FlarieMessage, type Platform } from './types';
 import {cyan, magenta, bold, italic} from 'chalk';
 import * as readline from 'node:readline/promises';
 import {userInfo} from 'node:os';
@@ -64,6 +64,11 @@ export class CampfirePlatform extends EventEmitter implements Platform {
                   this.#log(CampfirePlatform.#BOT_USERNAME, typeof message === 'string' ? {
                     content: message
                   } : message);
+                },
+                context: {
+                  type: FlarieContextTypes.SERVER,
+                  serverId: 'server',
+                  channelId: 'channel'
                 }
               })
             } else {

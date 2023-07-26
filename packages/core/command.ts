@@ -1,23 +1,21 @@
-import { Logger } from './logger';
 import { FlarieInteraction } from './types';
 
 export class FlarieCommand {
-  #name: string;
+  public readonly name: string;
+  public readonly allowDMs: boolean;
+  public readonly description: string;
+  public readonly disabled: boolean;
   #callback: FlarieCommand.Callback;
 
-  constructor(format: string, callback: FlarieCommand.Callback) {
-    const [name, ...parts] = format.split(' ');
+  constructor(rawOptions: string | FlarieCommand.Options, callback: FlarieCommand.Callback) {
+    const options: FlarieCommand.Options = typeof rawOptions === 'string' ? { name: rawOptions } : rawOptions;
 
-    this.#name = name;
+    this.name = options.name;
+    this.allowDMs = options.allowDMs || true;
+    this.description = options.description || '<insert-description-here>';
+    this.disabled = options.disabled || false;
+
     this.#callback = callback;
-
-    for (const part of parts) {
-      Logger.info(part);
-    }
-  }
-
-  public get name(): string {
-    return this.#name;
   }
 
   public async invoke(interaction: FlarieInteraction): Promise<void> {
@@ -27,4 +25,15 @@ export class FlarieCommand {
 
 export namespace FlarieCommand {
   export type Callback = (interaction: FlarieInteraction) => Promise<void>;
+
+  export type Options = {
+    name: string;
+    description?: string;
+    allowDMs?: boolean;
+
+    /**
+     * This will make the command usable by only admins
+     */
+    disabled?: boolean;
+  }
 }

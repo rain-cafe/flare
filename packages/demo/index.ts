@@ -1,6 +1,7 @@
 import { Flarie, CampfirePlatform, Platform, FlarieInteraction, FlarieCommand } from '@flarie/core';
 import { DiscordPlatform, Partials } from '@flarie/discord';
 import { CONFIG } from './config';
+import { Logger } from '@flarie/core';
 
 function getPlatform(platform: string): Platform {
   switch (platform) {
@@ -29,6 +30,8 @@ const flarie = new Flarie({
   platform: getPlatform(CONFIG.PLATFORM),
   commands: [
     new FlarieCommand('ping', async (interaction: FlarieInteraction) => {
+      Logger.info(JSON.stringify(interaction.context));
+
       await interaction.reply({
         content: 'pong!',
         ephemeral: true

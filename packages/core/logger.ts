@@ -23,6 +23,14 @@ export const LEVEL_CHALK: {
 export class Logger {
   static #level: LogLevel = LogLevel.INFO;
 
+  public static isLevel(level?: LogLevel): boolean {
+    return Logger.#level >= level;
+  }
+
+  public static isNotLevel(level?: LogLevel): boolean {
+    return !Logger.isLevel(level);
+  }
+
   public static setLevel(level?: LogLevel): void {
     if (!level) return;
 
@@ -30,7 +38,7 @@ export class Logger {
   }
 
   public static log(level: LogLevel, ...message: any[]) {
-    if (Logger.#level < level) return;
+    if (Logger.isNotLevel(level)) return
 
     const chalk = LEVEL_CHALK[level];
 
