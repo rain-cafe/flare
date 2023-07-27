@@ -1,6 +1,6 @@
 {
   "name": "@flarie/discord",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "packageManager": "yarn@3.6.1",
   "main": "dist/index.js",
   "source": "index.ts",
