@@ -8,7 +8,8 @@ export class FlarieCommand {
   #callback: FlarieCommand.Callback;
 
   constructor(rawOptions: string | FlarieCommand.Options, callback: FlarieCommand.Callback) {
-    const options: FlarieCommand.Options = typeof rawOptions === 'string' ? { name: rawOptions } : rawOptions;
+    const options: FlarieCommand.Options =
+      typeof rawOptions === 'string' ? { name: rawOptions } : rawOptions;
 
     this.name = options.name;
     this.allowDMs = options.allowDMs || true;
@@ -35,5 +36,5 @@ export namespace FlarieCommand {
      * This will make the command usable by only admins
      */
     disabled?: boolean;
-  }
+  };
 }

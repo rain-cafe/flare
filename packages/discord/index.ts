@@ -1,6 +1,15 @@
 import { Logger, FlarieCommand, type Platform, FlarieError } from '@flarie/core';
 import { EventEmitter } from 'node:events';
-import { BitFieldResolvable, Client, GatewayIntentsString, Partials, PermissionFlagsBits, REST, Routes, SlashCommandBuilder } from 'discord.js';
+import {
+  BitFieldResolvable,
+  Client,
+  GatewayIntentsString,
+  Partials,
+  PermissionFlagsBits,
+  REST,
+  Routes,
+  SlashCommandBuilder,
+} from 'discord.js';
 import { toFlarieInteraction } from './utils/interaction';
 
 export class DiscordPlatform extends EventEmitter implements Platform {
@@ -9,14 +18,14 @@ export class DiscordPlatform extends EventEmitter implements Platform {
   #options: DiscordPlatform.InternalOptions;
   #commands: Map<string, FlarieCommand>;
 
-  constructor({username, partials, intents, ...options}: DiscordPlatform.Options) {
+  constructor({ username, partials, intents, ...options }: DiscordPlatform.Options) {
     super();
     this.#options = options;
     this.#commands = new Map();
 
     this.#client = new Client({
       partials,
-      intents
+      intents,
     });
 
     this.#client.on('ready', async () => {
@@ -43,7 +52,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
 
     Logger.silly('Deleting application commands...');
 
-    await rest.put(Routes.applicationCommands(this.#options.clientId), { body: [] })
+    await rest.put(Routes.applicationCommands(this.#options.clientId), { body: [] });
 
     Logger.info('Successfully deleted all application commands.');
   }
@@ -63,10 +72,12 @@ export class DiscordPlatform extends EventEmitter implements Platform {
           return new SlashCommandBuilder()
             .setName(command.name)
             .setDescription(command.description)
-            .setDefaultMemberPermissions(command.disabled ? '0' : PermissionFlagsBits.UseApplicationCommands)
+            .setDefaultMemberPermissions(
+              command.disabled ? '0' : PermissionFlagsBits.UseApplicationCommands
+            )
             .setDMPermission(command.allowDMs)
             .toJSON();
-        })
+        }),
       });
 
       this.#client.on('interactionCreate', async (discordInteraction) => {
@@ -84,7 +95,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
           if (!interaction.replied) {
             await interaction.reply({
               content: 'Your command completed, but you never told anyone about it! :<',
-              ephemeral: true
+              ephemeral: true,
             });
           }
         } catch (error) {
@@ -120,7 +131,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
     }
 
     await channel.send({
-      content: message
+      content: message,
     });
   }
 }
@@ -132,12 +143,12 @@ export namespace DiscordPlatform {
     token: string;
     partials?: Partials[];
     intents: BitFieldResolvable<GatewayIntentsString, number>;
-  }
+  };
 
   export type InternalOptions = {
     clientId: string;
     token: string;
-  }
+  };
 }
 
-export {Partials} from 'discord.js';
+export { Partials } from 'discord.js';

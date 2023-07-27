@@ -1,5 +1,5 @@
-import {Chalk, red, yellow, cyan, magenta} from 'chalk';
-import { jsonStringifyRecursive } from './utils/stringify';
+import { Chalk, red, yellow, cyan, magenta } from 'chalk';
+import { stringify } from './utils/stringify';
 
 export enum LogLevel {
   ERROR,
@@ -8,17 +8,18 @@ export enum LogLevel {
   SILLY,
 }
 
-export const MAX_LENGTH = Object.keys(LogLevel).reduce((output, value) => {
-  return Math.max(output, value.length);
-}, 0) + 3;
+export const MAX_LENGTH =
+  Object.keys(LogLevel).reduce((output, value) => {
+    return Math.max(output, value.length);
+  }, 0) + 3;
 
 export const LEVEL_CHALK: {
-    [key in LogLevel]: Chalk;
+  [key in LogLevel]: Chalk;
 } = {
-    [LogLevel.ERROR]: red,
-    [LogLevel.WARN]: yellow,
-    [LogLevel.INFO]: cyan,
-    [LogLevel.SILLY]: magenta,
+  [LogLevel.ERROR]: red,
+  [LogLevel.WARN]: yellow,
+  [LogLevel.INFO]: cyan,
+  [LogLevel.SILLY]: magenta,
 };
 
 export class Logger {
@@ -32,22 +33,24 @@ export class Logger {
     return !Logger.isLevel(level);
   }
 
-  public static setLevel(level?: LogLevel): void {
-    if (!level) return;
-
+  public static setLevel(level: LogLevel) {
     Logger.#level = level;
   }
 
   public static log(level: LogLevel, ...rawMessages: any[]) {
-    if (Logger.isNotLevel(level)) return
+    if (Logger.isNotLevel(level)) return;
 
     const chalk = LEVEL_CHALK[level];
 
     const messages = rawMessages.map((rawMessage) => {
-      return typeof rawMessage === 'object' ? jsonStringifyRecursive(rawMessage) : rawMessage;
+      return typeof rawMessage === 'object' ? stringify(rawMessage) : rawMessage;
     });
 
-    console.log(chalk(`${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${messages.join(' ')}`));
+    console.log(
+      chalk(
+        `${`[${LogLevel[level].toLowerCase()}]:`.padEnd(MAX_LENGTH, ' ')} ${messages.join(' ')}`
+      )
+    );
   }
 
   public static error(...message: any[]) {

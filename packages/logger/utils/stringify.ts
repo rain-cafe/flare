@@ -1,4 +1,4 @@
-export function jsonStringifyRecursive(obj) {
+export function stringify(obj) {
   const cache = new Set();
   return JSON.stringify(obj, (key, value) => {
     if (typeof value === 'object' && value !== null) {

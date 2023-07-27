@@ -7,9 +7,7 @@ const jestConfig: JestConfigWithTsJest = {
     ...tsjPreset.transform,
   },
 
-  collectCoverageFrom: [
-    '<rootDir>/packages/**/*'
-  ],
+  collectCoverageFrom: ['<rootDir>/packages/**/*'],
 
   /*
    * What is going on with jest where this is necessary to have the collectCoverageFrom config?

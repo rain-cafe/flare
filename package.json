@@ -9,7 +9,7 @@
     "start": "yarn workspace @flarie/demo run start",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint packages/**/*.ts",
+    "lint": "eslint 'packages/**/*.ts'",
     "build": "yarn workspaces foreach run build",
     "v:patch": "yarn workspaces foreach -p --no-private version patch",
     "v:minor": "yarn workspaces foreach -p --no-private version minor",

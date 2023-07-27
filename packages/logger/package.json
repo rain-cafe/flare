@@ -1,5 +1,5 @@
 {
-  "name": "@flarie/core",
+  "name": "@flarie/logger",
   "version": "1.0.13",
   "packageManager": "yarn@3.6.1",
   "main": "dist/index.js",
@@ -9,8 +9,8 @@
     "build": "microbundle --target node -f cjs"
   },
   "dependencies": {
-    "@flarie/logger": "workspace:^",
-    "chalk": "^3"
+    "chalk": "^3",
+    "chance": "^1.1.11"
   },
   "devDependencies": {
     "microbundle": "^0.15.1"

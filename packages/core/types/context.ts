@@ -1,11 +1,11 @@
-import { FlarieChannel } from "./channel";
-import { FlarieServer } from "./server";
-import { FlarieUser } from "./user";
+import { FlarieChannel } from './channel';
+import { FlarieServer } from './server';
+import { FlarieUser } from './user';
 
 export enum FlarieContextTypes {
   SERVER,
-  DM
-};
+  DM,
+}
 
 export class FlarieContext {
   public readonly type: FlarieContextTypes;
@@ -42,7 +42,7 @@ export class FlarieServerContext extends FlarieContext {
   constructor(options: Omit<FlarieContext.ServerOptions, 'type'>) {
     super({
       type: FlarieContextTypes.SERVER,
-      ...options
+      ...options,
     });
 
     this.server = options.server;
@@ -55,7 +55,7 @@ export class FlarieDMContext extends FlarieContext {
   constructor(options: Omit<FlarieContext.DMOptions, 'type'>) {
     super({
       type: FlarieContextTypes.DM,
-      ...options
+      ...options,
     });
   }
 }
@@ -70,7 +70,7 @@ export namespace FlarieContext {
     channel: FlarieChannel;
 
     user: FlarieUser;
-  }
+  };
 
   export type ServerOptions = SharedOptions & {
     type: FlarieContextTypes.SERVER;
@@ -83,5 +83,5 @@ export namespace FlarieContext {
 
   export type DMOptions = SharedOptions & {
     type: FlarieContextTypes.DM;
-  }
+  };
 }

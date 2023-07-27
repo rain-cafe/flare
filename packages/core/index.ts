@@ -1,63 +1,67 @@
 import { EventEmitter } from 'node:events';
 import type { Platform } from './types';
-import { LogLevel, Logger } from './logger';
+import { LogLevel, Logger } from '@flarie/logger';
 import { FlarieCommand } from './types/command';
 
 export class Flarie extends EventEmitter {
-    #options: Flarie.InternalOptions;
+  #options: Flarie.InternalOptions;
 
-    constructor({ commands, level, ...options }: Flarie.Options) {
-        super();
+  constructor({ commands, level, ...options }: Flarie.Options) {
+    super();
 
-        Logger.setLevel(level);
+    Logger.setLevel(level);
 
-        this.#options = options;
+    this.#options = options;
 
-        const promises: Promise<void>[] = [];
+    const promises: Promise<void>[] = [];
 
-        promises.push(this.#options.platform.authenticate().then(async () => {
-            Logger.info('Successfully authenticated with platform.');
+    promises.push(
+      this.#options.platform.authenticate().then(async () => {
+        Logger.info('Successfully authenticated with platform.');
 
-            if (commands) {
-              await this.#register(commands);
-            }
-        }));
+        if (commands) {
+          await this.#register(commands);
+        }
+      })
+    );
 
-        promises.push(new Promise((resolve) => this.#options.platform.once('ready', () => resolve())));
+    promises.push(new Promise((resolve) => this.#options.platform.once('ready', () => resolve())));
 
-        Promise.all(promises).then(() => {
-          this.emit('ready');
-        }).catch((errors) => {
-          this.emit('error', errors);
-        });
-    }
+    Promise.all(promises)
+      .then(() => {
+        this.emit('ready');
+      })
+      .catch((errors) => {
+        this.emit('error', errors);
+      });
+  }
 
-    async #register(commands: FlarieCommand[]): Promise<void> {
-      Logger.silly('Registering commands with platform...');
+  async #register(commands: FlarieCommand[]): Promise<void> {
+    Logger.silly('Registering commands with platform...');
 
-      await this.#options.platform.register(commands);
+    await this.#options.platform.register(commands);
 
-      Logger.info('Successfully registered commands with platform.');
-    }
+    Logger.info('Successfully registered commands with platform.');
+  }
 
-    async send(serverId: string, channelId: string, message: string): Promise<void> {
-      await this.#options.platform.send(serverId, channelId, message);
-    }
+  async send(serverId: string, channelId: string, message: string): Promise<void> {
+    await this.#options.platform.send(serverId, channelId, message);
+  }
 }
 
 export namespace Flarie {
-    export type Options = {
-        platform: Platform;
-        commands?: FlarieCommand[];
-        level?: LogLevel;
-    }
+  export type Options = {
+    platform: Platform;
+    commands?: FlarieCommand[];
+    level?: LogLevel;
+  };
 
-    export type InternalOptions = {
-        platform: Platform;
-    }
+  export type InternalOptions = {
+    platform: Platform;
+  };
 }
 
-export {CampfirePlatform} from './campfire';
-export {Logger, LogLevel} from './logger';
-export {FlarieCommand} from './types/command';
+export { CampfirePlatform } from './campfire';
+export { Logger, LogLevel } from '@flarie/logger';
+export { FlarieCommand } from './types/command';
 export * from './types';

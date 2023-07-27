@@ -1,7 +1,7 @@
 import { Flarie, CampfirePlatform, Platform, FlarieInteraction, FlarieCommand } from '@flarie/core';
 import { DiscordPlatform, Partials } from '@flarie/discord';
+import { Logger } from '@flarie/logger';
 import { CONFIG } from './config';
-import { Logger } from '@flarie/core';
 
 function getPlatform(platform: string): Platform {
   switch (platform) {
@@ -12,14 +12,8 @@ function getPlatform(platform: string): Platform {
         username: 'Flarie (Dev)',
         clientId: CONFIG.DISCORD_CLIENT_ID,
         token: CONFIG.DISCORD_TOKEN,
-        partials: [
-          Partials.Channel,
-          Partials.GuildMember,
-        ],
-        intents: [
-          'Guilds',
-          'GuildMembers',
-        ]
+        partials: [Partials.Channel, Partials.GuildMember],
+        intents: ['Guilds', 'GuildMembers'],
       });
     default:
       throw new Error(`Unknown platform! (${platform})`);
@@ -34,11 +28,11 @@ const flarie = new Flarie({
 
       await interaction.reply({
         content: 'pong!',
-        ephemeral: true
-      })
-    })
+        ephemeral: true,
+      });
+    }),
   ],
-  level: CONFIG.LOG_LEVEL
+  level: CONFIG.LOG_LEVEL,
 });
 
 flarie.on('ready', () => {

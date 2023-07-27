@@ -5,7 +5,7 @@ export type MessageEnvelope = {
   id: string;
   displayName: string;
   message: string;
-}
+};
 
 export declare interface Platform extends EventEmitter {
   send(serverId: string, channelId: string, message: string): Promise<void>;
