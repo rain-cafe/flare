@@ -20,6 +20,7 @@ export class FlarieContext {
   constructor(options: FlarieContext.Options) {
     this.type = options.type;
     this.channel = options.channel;
+    this.user = options.user;
   }
 
   isServer(): this is FlarieServerContext {
