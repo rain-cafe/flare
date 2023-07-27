@@ -1,15 +1,11 @@
-import {
-  FlarieContext,
-  FlarieDMContext,
-  FlarieInteraction,
-  FlarieServerContext,
-} from '@flarie/core';
+import { FlarieContext, FlarieDMContext, FlarieInteraction, FlarieServerContext } from '@flarie/core';
 import {
   CacheType,
   ChatInputCommandInteraction,
   MessageContextMenuCommandInteraction,
   UserContextMenuCommandInteraction,
 } from 'discord.js';
+import { toDiscordReplyPayload } from './payloads';
 
 export function getContext(
   interaction:
@@ -58,16 +54,7 @@ export function toFlarieInteraction(
 ): FlarieInteraction {
   return {
     async reply(message) {
-      await interaction.reply(
-        typeof message === 'string'
-          ? {
-              content: message,
-            }
-          : {
-              content: message.content,
-              ephemeral: message.ephemeral,
-            }
-      );
+      await interaction.reply(toDiscordReplyPayload(message));
 
       this.replied = true;
     },

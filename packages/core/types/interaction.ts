@@ -1,8 +1,8 @@
 import { FlarieContext } from './context';
-import { FlarieMessage } from './message';
+import { FlarieMessageEphemeral } from './message';
 
 export type FlarieInteraction = {
-  reply(message: string | FlarieMessage): Promise<void>;
+  reply(message: string | FlarieMessageEphemeral): Promise<void>;
 
   replied: boolean;
 

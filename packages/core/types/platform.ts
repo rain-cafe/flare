@@ -1,5 +1,6 @@
 import { EventEmitter } from 'node:events';
 import { FlarieCommand } from './command';
+import { FlarieMessage } from './message';
 
 export type MessageEnvelope = {
   id: string;
@@ -8,7 +9,7 @@ export type MessageEnvelope = {
 };
 
 export declare interface Platform extends EventEmitter {
-  send(serverId: string, channelId: string, message: string): Promise<void>;
+  send(serverId: string, channelId: string, message: string | FlarieMessage): Promise<void>;
   authenticate(): Promise<void>;
   register(commands: FlarieCommand[]): Promise<void>;
 

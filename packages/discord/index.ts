@@ -11,6 +11,8 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import { toFlarieInteraction } from './utils/interaction';
+import { FlarieMessage } from '@flarie/core';
+import { toDiscordSendPayload } from './utils/payloads';
 
 export class DiscordPlatform extends EventEmitter implements Platform {
   public static readonly NAME = 'discord';
@@ -72,9 +74,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
           return new SlashCommandBuilder()
             .setName(command.name)
             .setDescription(command.description)
-            .setDefaultMemberPermissions(
-              command.disabled ? '0' : PermissionFlagsBits.UseApplicationCommands
-            )
+            .setDefaultMemberPermissions(command.disabled ? '0' : PermissionFlagsBits.UseApplicationCommands)
             .setDMPermission(command.allowDMs)
             .toJSON();
         }),
@@ -113,7 +113,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
     }
   }
 
-  async send(serverId: string, channelId: string, message: string): Promise<void> {
+  async send(serverId: string, channelId: string, message: string | FlarieMessage): Promise<void> {
     const guild = this.#client.guilds.cache.get(serverId);
 
     if (!guild) {
@@ -130,9 +130,7 @@ export class DiscordPlatform extends EventEmitter implements Platform {
       return;
     }
 
-    await channel.send({
-      content: message,
-    });
+    await channel.send(toDiscordSendPayload(message));
   }
 }
 

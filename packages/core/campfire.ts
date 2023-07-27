@@ -1,4 +1,9 @@
-import { FlarieServerContext, type FlarieMessage, type Platform } from './types';
+import {
+  FlarieServerContext,
+  type FlarieMessage,
+  type Platform,
+  FlarieMessageEphemeral,
+} from './types';
 import { cyan, magenta, bold, italic } from 'chalk';
 import * as readline from 'node:readline/promises';
 import { userInfo } from 'node:os';
@@ -27,7 +32,7 @@ export class CampfirePlatform extends EventEmitter implements Platform {
     this.#username = userInfo().username;
   }
 
-  #log(name: string, message: FlarieMessage) {
+  #log(name: string, message: FlarieMessageEphemeral) {
     if (message.ephemeral) {
       console.log(magenta(italic(`[${name}][e]: ${message.content}`)));
     } else {
