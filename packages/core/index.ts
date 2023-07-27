@@ -28,12 +28,8 @@ export class Flarie extends EventEmitter {
     promises.push(new Promise((resolve) => this.#options.platform.once('ready', () => resolve())));
 
     Promise.all(promises)
-      .then(() => {
-        this.emit('ready');
-      })
-      .catch((errors) => {
-        this.emit('error', errors);
-      });
+      .then(() => this.emit('ready'))
+      .catch((errors) => this.emit('error', errors));
   }
 
   async #register(commands: FlarieCommand[]): Promise<void> {

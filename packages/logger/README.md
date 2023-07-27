@@ -41,9 +41,9 @@
 
 This is a logger for [Flarie](https://github.com/rain-cafe/flarie), the universal bot framework!~ :heart:
 
-[npm-version-image]: https://img.shields.io/npm/v/@flarie/core.svg?style=flat
-[npm-downloads-image]: https://img.shields.io/npm/dm/@flarie/core.svg?style=flat
-[npm-url]: https://npmjs.org/package/@flarie/core
+[npm-version-image]: https://img.shields.io/npm/v/@flarie/logger.svg?style=flat
+[npm-downloads-image]: https://img.shields.io/npm/dm/@flarie/logger.svg?style=flat
+[npm-url]: https://npmjs.org/package/@flarie/logger
 [github-actions-image]: https://github.com/rain-cafe/flarie/actions/workflows/ci.yml/badge.svg?branch=main
 [github-actions-url]: https://github.com/rain-cafe/flarie/actions/workflows/ci.yml
 [coveralls-image]: https://img.shields.io/coveralls/rain-cafe/flarie.svg
