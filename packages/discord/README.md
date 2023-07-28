@@ -33,7 +33,7 @@
 
 [![CI Build][github-actions-image]][github-actions-url]
 [![Coveralls][coveralls-image]][coveralls-url]
-[![semantic-release][semantic-release-image]][semantic-release-url]
+[![zx-bulk-release][zx-bulk-release-image]][zx-bulk-release-url]
 
 </div>
 
@@ -48,5 +48,5 @@ This is a platform for [Flarie](https://github.com/rain-cafe/flarie), the univer
 [github-actions-url]: https://github.com/rain-cafe/flarie/actions/workflows/ci.yml
 [coveralls-image]: https://img.shields.io/coveralls/rain-cafe/flarie.svg
 [coveralls-url]: https://coveralls.io/github/rain-cafe/flarie?branch=main
-[semantic-release-url]: https://github.com/semantic-release/semantic-release
-[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[zx-bulk-release-url]: https://github.com/semrel-extra/zx-bulk-release
+[zx-bulk-release-image]: https://img.shields.io/badge/%F0%9F%93%A6%F0%9F%9A%80-zx--bulk--release-e10079?style=flat

@@ -11,5 +11,10 @@
   "dependencies": {
     "@flarie/core": "workspace:^",
     "discord.js": "^14.11.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rain-cafe/flarie.git"
+  },
+  "license": "MIT"
 }

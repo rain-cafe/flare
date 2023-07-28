@@ -14,5 +14,10 @@
   },
   "devDependencies": {
     "microbundle": "^0.15.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rain-cafe/flarie.git"
+  },
+  "license": "MIT"
 }
