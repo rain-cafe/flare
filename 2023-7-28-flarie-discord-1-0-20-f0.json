@@ -1,0 +1,9 @@
+{
+  "META_VERSION": "1",
+  "name": "@flarie/discord",
+  "hash": "ad04fe87c0889f8284c5e29761a83031e1cd9ed1",
+  "version": "1.0.20",
+  "dependencies": {
+    "@flarie/core": "^1.0.20"
+  }
+}
