@@ -1,0 +1,9 @@
+{
+  "META_VERSION": "1",
+  "name": "@flarie/core",
+  "hash": "b197793d22e61f6523acc935ec6095c00783af2a",
+  "version": "1.0.19",
+  "dependencies": {
+    "@flarie/logger": "^1.0.19"
+  }
+}
